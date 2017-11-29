@@ -21,7 +21,7 @@ static const RtkLv2Description _plugin = {
 		{ "bias", CONTROL_IN, 0.500000, 0.000000, 1.000000, "Bias"},
 		{ "filter", CONTROL_IN, 0.100000, 0.020000, 0.500000, "Filter"},
 		{ "corr", CONTROL_IN, 1.000000, 0.000000, 1.000000, "Correlation"},
-		{ "offset", CONTROL_IN, 0.000000, -2.000000, 2.000000, "Offset"},
+		{ "offset", CONTROL_IN, 0.000000, -24.000000, 24.000000, "Offset"},
 		{ "m00", CONTROL_IN, 1.000000, 0.000000, 1.000000, "C"},
 		{ "m01", CONTROL_IN, 1.000000, 0.000000, 1.000000, "C#"},
 		{ "m02", CONTROL_IN, 1.000000, 0.000000, 1.000000, "D"},

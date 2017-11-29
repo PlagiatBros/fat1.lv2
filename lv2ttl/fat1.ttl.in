@@ -151,9 +151,9 @@
 		lv2:symbol "offset" ;
 		lv2:name "Offset";
 		lv2:default 0.0 ;
-		lv2:minimum -2.0 ;
-		lv2:maximum  2.0 ;
-		pprop:rangeSteps 400;
+		lv2:minimum -24.0 ;
+		lv2:maximum  24.0 ;
+		pprop:rangeSteps 4800;
 		units:unit units:semitone12TET;
 		rdfs:comment "Adds an offset in the range of +/- two semitones to the pitch correction. With the Correction control set to zero the result is a constant pitch change.";
 	] , [
