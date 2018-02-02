@@ -111,8 +111,11 @@ parse_midi (Fat1* self,
 				}
 				// no break -- fallthrough, note-on velocity 0
 			case 0x80:
-				self->notes [n % 12] -= 1;
-				return 1;
+				// don't go below 0
+				if (self->notes [n % 12]) {
+					self->notes [n % 12] -= 1;
+					return 1;
+				}
 			default:
 				break;
 		}
