@@ -35,7 +35,7 @@ Retuner::Retuner (int fsamp)
       _corroffs (0.0f),
       _notemask (0xFFF),
       _fastmode (false),
-      _lastfastmode (false)
+      _lastfastmode (0)
 {
 	int   i, h;
 	float t, x, y;
@@ -153,7 +153,7 @@ Retuner::~Retuner (void)
 int
 Retuner::process (int nfram, float* inp, float* out)
 {
-	int   i, ii, k, fi, ra, lra;
+	int   i, ii, k, fi, ra, lra, currentfastmode;
 	float ph, dp, r1, r2, dr, u1, u2, v;
 
 	// Pitch shifting is done by resampling the input at the
@@ -177,12 +177,20 @@ Retuner::process (int nfram, float* inp, float* out)
 	// Fast mode allows reading samples directly from the input,
 	// before the pitch has been computed. This is useful in
 	// live situation.
-	ra = _fastmode ? _readahed : 0;
+	currentfastmode = _fastmode ? _corroffs < -12 ? EXTREME : ON : OFF;
+	ra = currentfastmode ? _readahed : 0;
+
+	// When pitch shifting is very low (under 1 octave)
+	// readahead needs some margin to avoid glitching
+	if (currentfastmode == EXTREME)
+		ra -= _upsamp ? _frsize * 2 : _frsize;
 
 	while (nfram) {
 
 		// Last read-ahead position for crossfading if Fast mode has changed
 		lra = _lastfastmode ? _readahed : 0;
+		if (_lastfastmode == EXTREME)
+			lra -= _upsamp ? _frsize * 2 : _frsize;
 
 		// Don't go past the end of the current fragment.
 		k = _frsize - fi;
@@ -290,7 +298,7 @@ Retuner::process (int nfram, float* inp, float* out)
 		}
 
 
-		_lastfastmode = _fastmode;
+		_lastfastmode = currentfastmode;
 
 
 		// If at end of fragment check for jump.
@@ -332,13 +340,16 @@ Retuner::process (int nfram, float* inp, float* out)
 			// the circular input buffer limits it must be at
 			// least one fragment size.
 			dr = _cycle * (int)(ceilf (_frsize / _cycle));
+			if (_cycle == 0)
+				dr = _upsamp ? _frsize * 2 : _frsize;
+
 			dp = dr / _frsize;
 			ph = r1 - _ipindex;
 			if (ph < 0)
 				ph += _ipsize;
 			if (_upsamp) {
 				ph /= 2;
-				dr *= 2;
+				if (_cycle != 0) dr *= 2;
 			}
 			ph = ph / _frsize + 2 * _ratio - 10;
 			if (ph > 0.5f) {

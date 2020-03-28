@@ -141,8 +141,14 @@ private:
 
 	float _notescale[12];
 	bool  _fastmode;
-	bool  _lastfastmode;
+	int   _lastfastmode;
 	int   _readahed;
+
+	enum FASTMODES {
+		OFF = 0,
+		ON,
+		EXTREME
+	};
 };
 
 }; // namespace LV2AT

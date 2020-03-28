@@ -21,7 +21,7 @@ static const RtkLv2Description _fat1_chroma = {
 		{ "bias", CONTROL_IN, 0.500000, 0.000000, 1.000000, "Normally the pitch estimator will select the enabled note closest to the measured pitch. The Bias control adds some preference for the current note - this allows it to go off-tune more than would be the case otherwise."},
 		{ "filter", CONTROL_IN, 0.100000, 0.020000, 0.500000, "This sets the amount of smoothing on the pitch correction while the current note does not change. If it does change the filter is bypassed and the correction jumps immediately to the new value."},
 		{ "corr", CONTROL_IN, 1.000000, 0.000000, 1.000000, "Determines how much of the estimated pitch error gets corrected. Full correction may remove expression or vibrato."},
-		{ "offset", CONTROL_IN, 0.000000, -2.000000, 2.000000, "Adds an offset in the range of +/- two semitones to the pitch correction. With the Correction control set to zero the result is a constant pitch change."},
+		{ "offset", CONTROL_IN, 0.000000, -24.000000, 24.000000, "Adds an offset in the range of +/- two semitones to the pitch correction. With the Correction control set to zero the result is a constant pitch change."},
 		{ "bendrange", CONTROL_IN, 2.000000, 0.000000, 7.000000, "Configures the effect range of MIDI pitch-bend messages. Pitch-bend is added to the pitch correction offset."},
 		{ "fastmode", CONTROL_IN, 0.000000, 0.000000, 1.000000, "Reduces latency by allowing initially uncorrected signal. This can be useful in live situations."},
 		{ "m00", CONTROL_IN, 1.000000, 0.000000, 1.000000, "C"},
